@@ -1,0 +1,77 @@
+#+TITLE: Xmms Gtk Rater
+#+AUTHOR: Rémi Vanicat <vanicat@debian.org>
+
+Copyright: (c) 2011 Rémi Vanicat
+
+* About
+  This is a small client for xmms2 that will allow sync a collection
+  with a removable apparatus
+
+** Licence
+   :PROPERTIES:
+   :ID:       400dffa3-3529-4583-b776-af98d7d5610e
+   :END:
+
+#+source: copyright
+#+begin_src ruby
+  Copyright (c) 2011 Rémi Vanicat
+
+  Permission is hereby granted, free of charge, to any person obtaining a
+  copy of this software and associated documentation files (the "Software"),
+  to deal in the Software without restriction, including without limitation
+  the rights to use, copy, modify, merge, publish, distribute, sublicense,
+  and/or sell copies of the Software, and to permit persons to whom the
+  Software is furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+  SOFTWARE IN THE PUBLIC INTEREST, INC. BE LIABLE FOR ANY CLAIM, DAMAGES OR
+  OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+  DEALINGS IN THE SOFTWARE.
+
+  Except as contained in this notice, the name of Rémi Vanicat shall not be
+  used in advertising or otherwise to promote the sale, use or other dealings
+  in this Software without prior written authorization from Rémi Vanicat.
+#+end_src
+
+
+
+
+* The structure of the program
+  :PROPERTIES:
+  :ID:       febdc89b-bfbc-4782-bf53-8b19ff298cf4
+  :END:
+#+begin_src ruby :tangle xmms-gtk-rater :noweb yes :shebang #!/usr/bin/ruby
+  # <<copyright>>
+
+  # This code is wrote using org-mode's babel's litterate programing
+  # you should modify xmms2-sync.org, and not xmms2-mp3player-sync.org directly.
+
+  <<libraries>>
+
+  <<xmms-extension>>
+
+  <<server-interaction>>
+
+  <<songs-lists>>
+
+  <<runing-it>>
+#+end_src
+
+** then included libraries
+   :PROPERTIES:
+   :ID:       303f4137-59ce-4c9f-810d-00f24548bafa
+   :END:
+
+#+source: libraries
+#+begin_src ruby
+  require 'xmmsclient'
+  require 'xmmsclient_glib'
+  require 'glib2'
+#+end_src
+
