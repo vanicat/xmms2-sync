@@ -148,7 +148,7 @@ Copyright: (c) 2011 Rémi Vanicat
 
 #+end_src
 
-* Connecting the dot, and running all this
+* TODO Connecting the dot, and running all this
   :PROPERTIES:
   :ID:       d7319434-31e9-41b7-a9e4-19759edaaaeb
   :END:
@@ -164,12 +164,12 @@ Copyright: (c) 2011 Rémi Vanicat
       # of the help screen.
       opts.banner = "Usage: xmms2-mp3player-sync [options] sync-from sync-to search-pattern"
       options[:size] = nil
-      opts.on('-s', '--size size', 'Size to be sync, in Byte') do |size|
+      opts.on('-s', '--size size', 'TODO Size to be sync, in Byte') do |size|
         options[:size] = size
       end
 
       options[:random] = false
-      opts.on('-r', '--random', 'if collection is too big, choose file to sync at random') do
+      opts.on('-r', '--random', 'TODO if collection is too big, choose file to sync at random') do
         options[:random] = true
       end
 
