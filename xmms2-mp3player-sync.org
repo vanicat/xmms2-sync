@@ -71,8 +71,6 @@ Copyright: (c) 2011 Rémi Vanicat
 #+source: libraries
 #+begin_src ruby
   require 'xmmsclient'
-  require 'xmmsclient_glib'
-  require 'glib2'
 #+end_src
 
 * The interaction with the xmms server
