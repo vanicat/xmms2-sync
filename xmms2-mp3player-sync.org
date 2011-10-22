@@ -71,6 +71,7 @@ Copyright: (c) 2011 Rémi Vanicat
 #+source: libraries
 #+begin_src ruby
   require 'xmmsclient'
+  require 'optparse'
 #+end_src
 
 * The interaction with the xmms server
@@ -137,3 +138,46 @@ Copyright: (c) 2011 Rémi Vanicat
   end
 #+end_src
 
+* Connecting the dot, and running all this
+  :PROPERTIES:
+  :ID:       d7319434-31e9-41b7-a9e4-19759edaaaeb
+  :END:
+#+source: runing-it
+#+begin_src ruby
+  $0 = "xmms-gtk-rater"
+
+  def main ()
+    options = {}
+
+    optparse = OptionParser.new do|opts|
+      # Set a banner, displayed at the top
+      # of the help screen.
+      opts.banner = "Usage: xmms2-mp3player-sync [options] sync-from sync-to search-pattern"
+      options[:size] = nil
+      opts.on('-s', '--size size', 'Size to be sync, in Byte') do |size|
+        options[:size] = size
+      end
+
+      options[:random] = false
+      opts.on('-r', '--random', 'if collection is too big, choose file to sync at random') do
+        options[:random] = true
+      end
+
+      opts.on( '-h', '--help', 'Display this screen' ) do
+        puts opts
+        exit
+      end
+    end
+
+    optparse.parse!
+
+    syncfrom = ARGV.slice!(0)
+    syncto = ARGV.slice!(0)
+    pattern = ARGV
+
+    xc = XmmsInteract.new
+  end
+
+  main()
+
+#+end_src
