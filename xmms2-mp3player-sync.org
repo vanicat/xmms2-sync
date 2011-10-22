@@ -138,6 +138,16 @@ Copyright: (c) 2011 Rémi Vanicat
   end
 #+end_src
 
+** Reading collections
+#+source: reading-server-information
+#+begin_src ruby
+  def get_colletion(pattern)
+    coll = Xmms::Collection.parse(pattern)
+    res = @xc.coll_query_info(coll).wait.value
+  end
+
+#+end_src
+
 * Connecting the dot, and running all this
   :PROPERTIES:
   :ID:       d7319434-31e9-41b7-a9e4-19759edaaaeb
