@@ -205,6 +205,10 @@ Copyright: (c) 2011 Rémi Vanicat
 
     optparse.parse!
 
+    if ARGV.length < 3 then
+      puts(optparse)
+    end
+
     syncfrom = ARGV.slice!(0)
     syncto = ARGV.slice!(0)
     pattern = ARGV
