@@ -138,12 +138,35 @@ Copyright: (c) 2011 Rémi Vanicat
   end
 #+end_src
 
-** Reading collections
+** TODO Reading collections
 #+source: reading-server-information
 #+begin_src ruby
-  def get_colletion(pattern)
+  def get_colletion(pattern,maxsize,random)
     coll = Xmms::Collection.parse(pattern)
-    res = @xc.coll_query_info(coll).wait.value
+    if random then
+      order = ['random']          # doesn't work for now...
+    else
+      order = ['id']
+    end
+    res = @xc.coll_query_info(coll,['url','size'],order).wait.value
+
+    list = []
+
+    size = 0
+
+    res.each do |song|
+      if song[:size] then
+        size += song[:size]
+        if maxsize && size > maxsize then
+          break
+        end
+        list += [URI.song[:url]]
+      end
+    end
+    if (maxsize && ! random && size > maxsize ) then
+      exit(-1)                  #TODO: do not exit for when there is a gui
+    end
+    return list
   end
 
 #+end_src
