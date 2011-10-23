@@ -12,211 +12,208 @@ Copyright: (c) 2011 Rémi Vanicat
    :ID:       400dffa3-3529-4583-b776-af98d7d5610e
    :END:
 
-#+source: copyright
-#+begin_src ruby
-  Copyright (c) 2011 Rémi Vanicat
+   #+source: copyright
+   #+begin_src ruby
+     Copyright (c) 2011 Rémi Vanicat
 
-  Permission is hereby granted, free of charge, to any person obtaining a
-  copy of this software and associated documentation files (the "Software"),
-  to deal in the Software without restriction, including without limitation
-  the rights to use, copy, modify, merge, publish, distribute, sublicense,
-  and/or sell copies of the Software, and to permit persons to whom the
-  Software is furnished to do so, subject to the following conditions:
+     Permission is hereby granted, free of charge, to any person obtaining a
+     copy of this software and associated documentation files (the "Software"),
+     to deal in the Software without restriction, including without limitation
+     the rights to use, copy, modify, merge, publish, distribute, sublicense,
+     and/or sell copies of the Software, and to permit persons to whom the
+     Software is furnished to do so, subject to the following conditions:
 
-  The above copyright notice and this permission notice shall be included in
-  all copies or substantial portions of the Software.
+     The above copyright notice and this permission notice shall be included in
+     all copies or substantial portions of the Software.
 
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-  SOFTWARE IN THE PUBLIC INTEREST, INC. BE LIABLE FOR ANY CLAIM, DAMAGES OR
-  OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-  DEALINGS IN THE SOFTWARE.
+     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+     IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+     SOFTWARE IN THE PUBLIC INTEREST, INC. BE LIABLE FOR ANY CLAIM, DAMAGES OR
+     OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+     ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+     DEALINGS IN THE SOFTWARE.
 
-  Except as contained in this notice, the name of Rémi Vanicat shall not be
-  used in advertising or otherwise to promote the sale, use or other dealings
-  in this Software without prior written authorization from Rémi Vanicat.
-#+end_src
-
-
-
+     Except as contained in this notice, the name of Rémi Vanicat shall not be
+     used in advertising or otherwise to promote the sale, use or other dealings
+     in this Software without prior written authorization from Rémi Vanicat.
+   #+end_src
 
 * The structure of the program
   :PROPERTIES:
   :ID:       febdc89b-bfbc-4782-bf53-8b19ff298cf4
   :END:
-#+begin_src ruby :tangle xmms2-sync :noweb yes :shebang #!/usr/bin/ruby
-  # <<copyright>>
+  #+begin_src ruby :tangle xmms2-sync :noweb yes :shebang #!/usr/bin/ruby
+    # <<copyright>>
 
-  # This code is wrote using org-mode's babel's litterate programing
-  # you should modify xmms2-sync.org, and not xmms2-mp3player-sync.org directly.
+    # This code is wrote using org-mode's babel's litterate programing
+    # you should modify xmms2-sync.org, and not xmms2-mp3player-sync.org directly.
 
-  <<libraries>>
+    <<libraries>>
 
-  <<xmms-extension>>
+    <<xmms-extension>>
 
-  <<server-interaction>>
+    <<server-interaction>>
 
-  <<songs-lists>>
+    <<songs-lists>>
 
-  <<runing-it>>
-#+end_src
+    <<runing-it>>
+  #+end_src
 
 ** then included libraries
    :PROPERTIES:
    :ID:       303f4137-59ce-4c9f-810d-00f24548bafa
    :END:
 
-#+source: libraries
-#+begin_src ruby
-  require 'xmmsclient'
-  require 'optparse'
-  require 'uri'
-#+end_src
+   #+source: libraries
+   #+begin_src ruby
+     require 'xmmsclient'
+     require 'optparse'
+     require 'uri'
+   #+end_src
 
 * The interaction with the xmms server
 ** The structure of the class
    :PROPERTIES:
    :ID:       60333ece-ab83-4b09-b474-e04e9ea0606c
    :END:
-#+source: server-interaction
-#+begin_src ruby :noweb yes
-  class XmmsInteract
-    <<reading-xmms-hash>>
+   #+source: server-interaction
+   #+begin_src ruby :noweb yes
+     class XmmsInteract
+       <<reading-xmms-hash>>
 
-    <<initialization>>
+       <<initialization>>
 
-    <<connection-handling>>
+       <<connection-handling>>
 
-    <<reading-server-information>>
-  end
-#+end_src
+       <<reading-server-information>>
+     end
+   #+end_src
 
-#+source: reading-xmms-hash
-#+begin_src ruby
-  def get(info, attr, default=nil)
-    info[attr].map[0][1]
-  rescue NoMethodError => e
-    default
-  end
-#+end_src
+   #+source: reading-xmms-hash
+   #+begin_src ruby
+     def get(info, attr, default=nil)
+       info[attr].map[0][1]
+     rescue NoMethodError => e
+       default
+     end
+   #+end_src
 
 ** initializing
    :PROPERTIES:
    :ID:       83142473-12ba-40ab-b4d8-9a9169b4db1f
    :END:
-#+source: initialization
-#+begin_src ruby
-  def initialize
-    unless connect!
-      puts 'Failed to connect to XMMS2 daemon.'
-      puts 'Please make sure xmms2d is running and using the correct IPC path.'
-      exit
-    end
-  end
-#+end_src
+   #+source: initialization
+   #+begin_src ruby
+     def initialize
+       unless connect!
+         puts 'Failed to connect to XMMS2 daemon.'
+         puts 'Please make sure xmms2d is running and using the correct IPC path.'
+         exit
+       end
+     end
+   #+end_src
 
 ** connection hangling
    :PROPERTIES:
    :ID:       acdc6116-8573-46f2-be35-c706c3d5f5b7
    :END:
    we connect, and reconnect.
-#+source: connection-handling
-#+begin_src ruby
-  def connect!
-    begin
-      @xc = Xmms::Client.new('GtkRater').connect(ENV['XMMS_PATH'])
-    rescue Xmms::Client::ClientError
-      return false
-    end
+   #+source: connection-handling
+   #+begin_src ruby
+     def connect!
+       begin
+         @xc = Xmms::Client.new('GtkRater').connect(ENV['XMMS_PATH'])
+       rescue Xmms::Client::ClientError
+         return false
+       end
 
-    @xc.on_disconnect do
-      exit
-    end
+       @xc.on_disconnect do
+         exit
+       end
 
-    return true
-  end
-#+end_src
+       return true
+     end
+   #+end_src
 
 ** TODO Reading collections
-#+source: reading-server-information
-#+begin_src ruby
-  def get_colletion(pattern,maxsize,random)
-    coll = Xmms::Collection.parse(pattern)
-    if random then
-      order = ['random']          # doesn't work for now...
-    else
-      order = ['id']
-    end
-    res = @xc.coll_query_info(coll,['url','size'],order).wait.value
+   #+source: reading-server-information
+   #+begin_src ruby
+     def get_colletion(pattern,maxsize,random)
+       coll = Xmms::Collection.parse(pattern)
+       if random then
+         order = ['random']          # doesn't work for now...
+       else
+         order = ['id']
+       end
+       res = @xc.coll_query_info(coll,['url','size'],order).wait.value
 
-    list = []
+       list = []
 
-    size = 0
+       size = 0
 
-    res.each do |song|
-      if song[:size] then
-        size += song[:size]
-        if maxsize && size > maxsize then
-          break
-        end
-        list += [URI.decode(URI(song[:url]).path).gsub(/\+/, ' ')]
-      end
-    end
-    if (maxsize && ! random && size > maxsize ) then
-      exit(-1)                  #TODO: do not exit for when there is a gui
-    end
-    return list
-  end
+       res.each do |song|
+         if song[:size] then
+           size += song[:size]
+           if maxsize && size > maxsize then
+             break
+           end
+           list += [URI.decode(URI(song[:url]).path).gsub(/\+/, ' ')]
+         end
+       end
+       if (maxsize && ! random && size > maxsize ) then
+         exit(-1)                  #TODO: do not exit for when there is a gui
+       end
+       return list
+     end
 
-#+end_src
+   #+end_src
 
 * TODO Connecting the dot, and running all this
   :PROPERTIES:
   :ID:       d7319434-31e9-41b7-a9e4-19759edaaaeb
   :END:
-#+source: runing-it
-#+begin_src ruby
-  $0 = "xmms-gtk-rater"
+  #+source: runing-it
+  #+begin_src ruby
+    $0 = "xmms-gtk-rater"
 
-  def main ()
-    options = {}
+    def main ()
+      options = {}
 
-    optparse = OptionParser.new do|opts|
-      # Set a banner, displayed at the top
-      # of the help screen.
-      opts.banner = "Usage: xmms2-mp3player-sync [options] sync-from sync-to search-pattern"
-      options[:size] = nil
-      opts.on('-s', '--size size', 'TODO Size to be sync, in Byte') do |size|
-        options[:size] = size.to_i
+      optparse = OptionParser.new do|opts|
+        # Set a banner, displayed at the top
+        # of the help screen.
+        opts.banner = "Usage: xmms2-mp3player-sync [options] sync-from sync-to search-pattern"
+        options[:size] = nil
+        opts.on('-s', '--size size', 'TODO Size to be sync, in Byte') do |size|
+          options[:size] = size.to_i
+        end
+
+        options[:random] = false
+        opts.on('-r', '--random', 'TODO if collection is too big, choose file to sync at random') do
+          options[:random] = true
+        end
+
+        opts.on( '-h', '--help', 'Display this screen' ) do
+          puts opts
+          exit
+        end
       end
 
-      options[:random] = false
-      opts.on('-r', '--random', 'TODO if collection is too big, choose file to sync at random') do
-        options[:random] = true
+      optparse.parse!
+
+      if ARGV.length < 3 then
+        puts(optparse)
       end
 
-      opts.on( '-h', '--help', 'Display this screen' ) do
-        puts opts
-        exit
-      end
+      syncfrom = ARGV.slice!(0)
+      syncto = ARGV.slice!(0)
+      pattern = ARGV
+
+      xc = XmmsInteract.new
+      synclist = xc.get_colletion(pattern.join(" "),options[:size],options[:random])
     end
 
-    optparse.parse!
+    main()
 
-    if ARGV.length < 3 then
-      puts(optparse)
-    end
-
-    syncfrom = ARGV.slice!(0)
-    syncto = ARGV.slice!(0)
-    pattern = ARGV
-
-    xc = XmmsInteract.new
-    synclist = xc.get_colletion(pattern.join(" "),options[:size],options[:random])
-  end
-
-  main()
-
-#+end_src
+  #+end_src
