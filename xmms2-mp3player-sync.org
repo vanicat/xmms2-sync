@@ -165,7 +165,7 @@ Copyright: (c) 2011 Rémi Vanicat
       opts.banner = "Usage: xmms2-mp3player-sync [options] sync-from sync-to search-pattern"
       options[:size] = nil
       opts.on('-s', '--size size', 'TODO Size to be sync, in Byte') do |size|
-        options[:size] = size
+        options[:size] = size.to_i
       end
 
       options[:random] = false
