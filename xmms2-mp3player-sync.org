@@ -5,7 +5,17 @@ Copyright: (c) 2011 Rémi Vanicat
 
 * About
   This is a small client for xmms2 that will allow sync a collection
-  with a removable apparatus
+  with a removable media player.
+
+  To run you must first extract the code with emacs an org-mode
+  C-c C-v t then copy xmms2-sync somewhere in the path so you can run
+  it.
+
+** Some TODO:
+
+*** TODO use ipod specific library
+*** TODO build a GUI
+*** TODO use a config file.
 
 ** Licence
    :PROPERTIES:
@@ -188,7 +198,6 @@ Copyright: (c) 2011 Rémi Vanicat
       return li
     end
   #+end_src
-
 
 * syncing directories
 ** The syncing structure
