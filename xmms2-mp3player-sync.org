@@ -167,9 +167,9 @@ Copyright: (c) 2011 Rémi Vanicat
        if (maxsize && ! random && size > maxsize ) then
          exit(-1)                  #TODO: do not exit for when there is a gui
        end
-       return list.sort
+       list.sort! do |x,y| x.to_s <=> y.to_s end
+       return list
      end
-
    #+end_src
 
 * Reading a directories
@@ -181,7 +181,8 @@ Copyright: (c) 2011 Rémi Vanicat
       path.find do |x|
         li << x
       end
-      li.sort
+      li.sort! do |x,y| x.to_s <=> y.to_s end
+      return li
     end
   #+end_src
 
