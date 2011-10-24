@@ -226,7 +226,7 @@ Copyright: (c) 2011 Rémi Vanicat
    #+source: action-both
    #+begin_src ruby
      def action_both(sync_dir,dest_dir,song)
-       puts('same',sync_dir + song,dest_dir + song)
+       # let's do nothing
      end
    #+end_src
 
