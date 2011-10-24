@@ -154,17 +154,20 @@ Copyright: (c) 2011 Rémi Vanicat
 
        res.each do |song|
          if song[:size] then
-           size += song[:size]
-           if maxsize && size > maxsize then
-             break
+           song_path = Pathname(URI.decode(URI(song[:url]).path).gsub(/\+/, ' '))
+           if song_path.exist? then
+             size += song[:size]
+             if maxsize && size > maxsize then
+               break
+             end
+             list << song_path
            end
-           list += [URI.decode(URI(song[:url]).path).gsub(/\+/, ' ')]
          end
        end
        if (maxsize && ! random && size > maxsize ) then
          exit(-1)                  #TODO: do not exit for when there is a gui
        end
-       return list
+       return list.sort
      end
 
    #+end_src
