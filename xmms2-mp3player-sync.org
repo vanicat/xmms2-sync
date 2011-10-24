@@ -72,6 +72,7 @@ Copyright: (c) 2011 Rémi Vanicat
      require 'optparse'
      require 'uri'
      require 'pathname'
+     require 'fileutils'
    #+end_src
 
 * The interaction with the xmms server
@@ -203,7 +204,11 @@ Copyright: (c) 2011 Rémi Vanicat
    #+source: action-only-source
    #+begin_src ruby
      def action_from_source(sync_dir,dest_dir,song)
-       puts('from_source',sync_dir + song)
+       source_song=sync_dir + song
+       dest_song=dest_dir + song
+       dest_song.dirname.mkpath
+       print("copying #{source_song} to #{dest_song}\n")
+       FileUtils.cp(source_song,dest_song)
      end
    #+end_src
 
