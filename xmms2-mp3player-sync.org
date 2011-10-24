@@ -55,7 +55,7 @@ Copyright: (c) 2011 Rémi Vanicat
 
     <<server-interaction>>
 
-    <<songs-lists>>
+    <<path-reading>>
 
     <<runing-it>>
   #+end_src
@@ -64,12 +64,12 @@ Copyright: (c) 2011 Rémi Vanicat
    :PROPERTIES:
    :ID:       303f4137-59ce-4c9f-810d-00f24548bafa
    :END:
-
    #+source: libraries
    #+begin_src ruby
      require 'xmmsclient'
      require 'optparse'
      require 'uri'
+     require 'pathname'
    #+end_src
 
 * The interaction with the xmms server
@@ -168,6 +168,19 @@ Copyright: (c) 2011 Rémi Vanicat
      end
 
    #+end_src
+
+* Reading a directories
+  #+source: path-reading
+  #+begin_src ruby
+    def find_in_dir path
+      path=Pathname(path)
+      li = []
+      path.find do |x|
+        li << x
+      end
+      li.sort
+    end
+  #+end_src
 
 * TODO Connecting the dot, and running all this
   :PROPERTIES:
