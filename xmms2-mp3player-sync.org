@@ -57,6 +57,8 @@ Copyright: (c) 2011 Rémi Vanicat
 
     <<path-reading>>
 
+    <<sync>>
+
     <<runing-it>>
   #+end_src
 
@@ -186,6 +188,80 @@ Copyright: (c) 2011 Rémi Vanicat
     end
   #+end_src
 
+
+* syncing directories
+** The syncing structure
+   #+source: sync
+   #+begin_src ruby
+     <<action-only-source>>
+     <<action-only-dest>>
+     <<action-both>>
+     <<syncing-it>>
+   #+end_src
+
+** syncing when there is the source and not the dest
+   #+source: action-only-source
+   #+begin_src ruby
+     def action_from_source(sync_dir,dest_dir,song)
+       puts('from_source',sync_dir + song)
+     end
+   #+end_src
+
+** syncing when there is the dest and not the source
+   #+source: action-only-dest
+   #+begin_src ruby
+     def action_from_dest(sync_dir,dest_dir,song)
+       puts('in dest',dest_dir + song)
+     end
+   #+end_src
+
+** syncing when there both
+   #+source: action-both
+   #+begin_src ruby
+     def action_both(sync_dir,dest_dir,song)
+       puts('same',sync_dir + song,dest_dir + song)
+     end
+   #+end_src
+
+** Let's do it
+   #+source: syncing-it
+   #+begin_src ruby
+        def get_song(dir,list)
+          song = list.pop
+          while song && song.directory?
+            song = list.pop
+          end
+          song && song.relative_path_from(dir)
+        end
+
+        def sync(sync_dir,sync_list,dest_dir,dest_list)
+          dest_song = get_song(dest_dir,dest_list)
+          sync_song = get_song(sync_dir,sync_list)
+          while dest_song && sync_song
+            if dest_song.to_s > sync_song.to_s
+              action_from_dest(sync_dir,dest_dir,dest_song)
+              dest_song = get_song(dest_dir,dest_list)
+            elsif dest_song.to_s < sync_song.to_s
+              action_from_source(sync_dir,dest_dir,sync_song)
+              sync_song = get_song(sync_dir,sync_list)
+            else
+              action_both(sync_dir,dest_dir,sync_song)
+              dest_song = get_song(dest_dir,dest_list)
+              sync_song = get_song(sync_dir,sync_list)
+            end
+          end
+          while dest_song
+            puts 'dest',dest_song
+            dest_song = get_song(dest_dir,dest_list)
+          end
+          while sync_song
+            puts 'sync',sync_song
+            sync_song = get_song(sync_dir,sync_list)
+          end
+        end
+
+   #+end_src
+
 * TODO Connecting the dot, and running all this
   :PROPERTIES:
   :ID:       d7319434-31e9-41b7-a9e4-19759edaaaeb
@@ -231,6 +307,8 @@ Copyright: (c) 2011 Rémi Vanicat
       synclist = xc.get_colletion(pattern.join(" "),options[:size],options[:random])
 
       destlist = find_in_dir(syncto)
+
+      sync(Pathname(syncfrom),synclist,Pathname(syncto),destlist)
     end
 
     main()
