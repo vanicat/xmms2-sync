@@ -216,7 +216,9 @@ Copyright: (c) 2011 Rémi Vanicat
    #+source: action-only-dest
    #+begin_src ruby
      def action_from_dest(sync_dir,dest_dir,song)
-       puts('in dest',dest_dir + song)
+       dest_song=dest_dir + song
+       print("deleting #{dest_song}\n")
+       dest_song.unlink
      end
    #+end_src
 
