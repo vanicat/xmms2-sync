@@ -59,6 +59,7 @@ Copyright: (c) 2011 Rémi Vanicat
     # This code is wrote using org-mode's babel's litterate programing
     # you should modify xmms2-sync.org, and not xmms2-mp3player-sync.org directly.
     @dry_run = false
+    @silence = false
 
     <<libraries>>
 
@@ -222,7 +223,9 @@ Copyright: (c) 2011 Rémi Vanicat
        if not(@dry_run) then
          dest_song.dirname.mkpath
        end
-       print("copying #{source_song} to #{dest_song}\n")
+       if not(@silence) then
+         print("copying #{source_song} to #{dest_song}\n")
+       end
        if not(@dry_run) then
          FileUtils.cp(source_song,dest_song)
        end
@@ -234,7 +237,9 @@ Copyright: (c) 2011 Rémi Vanicat
    #+begin_src ruby
      def action_from_dest(sync_dir,dest_dir,song)
        dest_song=dest_dir + song
-       print("deleting #{dest_song}\n")
+       if not(@silence) then
+         print("deleting #{dest_song}\n")
+       end
        if not(@dry_run) then
          dest_song.unlink
        end
@@ -318,6 +323,11 @@ Copyright: (c) 2011 Rémi Vanicat
         end
 
         opts.on( '-n', '--no-do', 'Do nothing, just print what should be done' ) do
+          @dry_run = true
+        end
+    
+        opts.on( '-o', '--only-size', 'Do nothing, just print the size of the search' ) do
+          @silence = true
           @dry_run = true
         end
       end
