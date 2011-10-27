@@ -16,6 +16,7 @@ Copyright: (c) 2011 Rémi Vanicat
 *** TODO use ipod specific library
 *** TODO build a GUI
 *** TODO use a config file.
+*** TODO delete first copy after to have the place
 
 ** Licence
    :PROPERTIES:
