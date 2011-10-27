@@ -12,7 +12,6 @@ Copyright: (c) 2011 Rémi Vanicat
   it.
 
 ** Some TODO:
-
 *** TODO use ipod specific library
 *** TODO build a GUI
 *** TODO use a config file.
@@ -354,7 +353,7 @@ Copyright: (c) 2011 Rémi Vanicat
         opts.on( '-n', '--no-do', 'Do nothing, just print what should be done' ) do
           @dry_run = true
         end
-    
+
         opts.on( '-o', '--only-size', 'Do nothing, just print the size of the search' ) do
           @silence = true
           @dry_run = true
@@ -380,5 +379,4 @@ Copyright: (c) 2011 Rémi Vanicat
     end
 
     main()
-
   #+end_src
