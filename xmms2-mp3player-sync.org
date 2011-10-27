@@ -377,6 +377,7 @@ Copyright: (c) 2011 Rémi Vanicat
 
      if ARGV.length < 3 then
        puts(optparse)
+       exit(-1)
      end
 
      syncfrom = ARGV.slice!(0)
