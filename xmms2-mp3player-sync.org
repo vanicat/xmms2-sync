@@ -63,6 +63,8 @@ Copyright: (c) 2011 Rémi Vanicat
 
     <<libraries>>
 
+    <<encode>>
+
     <<xmms-extension>>
 
     <<server-interaction>>
@@ -85,6 +87,32 @@ Copyright: (c) 2011 Rémi Vanicat
      require 'uri'
      require 'pathname'
      require 'fileutils'
+   #+end_src
+
+* Path for lesser filesystem
+** Encoding name
+   #+source: encode_name
+   #+begin_src ruby
+     def encoding_path(path)
+       path=path.to_s
+       path=path.gsub(/[<>:\"\\|?*]/,'_')
+       return path
+     end
+   #+end_src
+** Compare path that could have been encoded
+   #+source: compare_name
+   #+begin_src ruby
+     def compare_path(path1,path2)
+       path1 = encoding_path(path1).capitalize!
+       path2 = encoding_path(path2).capitalize!
+       path1 <=> path2
+     end
+   #+end_src
+** structure
+   #+source: encode
+   #+begin_src ruby :noweb yes
+     <<encode_name>>
+     <<compare_name>>
    #+end_src
 
 * The interaction with the xmms server
