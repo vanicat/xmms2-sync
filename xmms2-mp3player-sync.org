@@ -60,6 +60,8 @@ Copyright: (c) 2011 Rémi Vanicat
     # you should modify xmms2-sync.org, and not xmms2-mp3player-sync.org directly.
     <<variables>>
 
+    <<useful>>
+
     <<libraries>>
 
     <<encode>>
@@ -113,6 +115,25 @@ Copyright: (c) 2011 Rémi Vanicat
      <<encode_name>>
      <<compare_name>>
    #+end_src
+
+* Some useful function
+  #+name: useful
+  #+begin_src ruby
+    def print_size(size, human)
+      if human then
+        units = [ 'o', 'Kio', 'Mio', 'Gio', 'Tio', 'Pio', 'Eio', 'Zio', 'Yio' ]
+        unit_index = 0
+        while size > 1024 and unit_index + 1 < units.length do
+          size /= 1024
+          unit_index += 1
+        end
+        return "#{size} #{units[unit_index]}"
+      else
+        return size.to_s
+      end
+    end
+
+  #+end_src
 
 * The interaction with the xmms server
 ** The structure of the class
@@ -184,6 +205,7 @@ Copyright: (c) 2011 Rémi Vanicat
      def get_colletion(pattern, option)
        maxsize = option[:size]
        random = option[:random]
+       human = option[:human]
 
        coll = Xmms::Collection.parse(pattern)
        if random then
@@ -209,7 +231,7 @@ Copyright: (c) 2011 Rémi Vanicat
            end
          end
        end
-       print "size to sync #{size}\n"
+       print "size to sync #{print_size(size, human)}\n"
        if (maxsize && ! random && size > maxsize ) then
          print "to much things to sync\n"
          exit(-1)                  #TODO: do not exit for when there is a gui
@@ -360,6 +382,11 @@ Copyright: (c) 2011 Rémi Vanicat
        opts.on( '-o', '--only-size', 'Do nothing, just print the size of the search' ) do
          @silence = true
          @dry_run = true
+       end
+
+       options[:human]=false
+       opts.on( '-H', '--human-readable-size', 'When printing size convert to human readable one' ) do
+         options[:human]=true
        end
 
        opts.on( '-e', '--encode', 'Encode the file name' ) do
