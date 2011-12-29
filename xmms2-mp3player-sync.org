@@ -57,7 +57,8 @@ Copyright: (c) 2011 Rémi Vanicat
     # <<copyright>>
 
     # This code is wrote using org-mode's babel's litterate programing
-    # you should modify xmms2-sync.org, and not xmms2-mp3player-sync.org directly.
+    # you should modify xmms2-sync.org, and not xmms2-sync directly.
+
     <<variables>>
 
     <<useful>>
