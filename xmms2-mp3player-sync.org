@@ -22,7 +22,7 @@ Copyright: (c) 2011 Rémi Vanicat
    :ID:       400dffa3-3529-4583-b776-af98d7d5610e
    :END:
 
-   #+source: copyright
+   #+name: copyright
    #+begin_src ruby
      Copyright (c) 2011 Rémi Vanicat
 
@@ -79,7 +79,7 @@ Copyright: (c) 2011 Rémi Vanicat
    :PROPERTIES:
    :ID:       303f4137-59ce-4c9f-810d-00f24548bafa
    :END:
-   #+source: libraries
+   #+name: libraries
    #+begin_src ruby
      require 'xmmsclient'
      require 'optparse'
@@ -90,7 +90,7 @@ Copyright: (c) 2011 Rémi Vanicat
 
 * Path for lesser filesystem
 ** Encoding name
-   #+source: encode_name
+   #+name: encode_name
    #+begin_src ruby
      def encoding_path(path)
        path=path.to_s
@@ -99,7 +99,7 @@ Copyright: (c) 2011 Rémi Vanicat
      end
    #+end_src
 ** Compare path that could have been encoded
-   #+source: compare_name
+   #+name: compare_name
    #+begin_src ruby
      def compare_path(path1,path2)
        path1 = encoding_path(path1).capitalize!
@@ -108,7 +108,7 @@ Copyright: (c) 2011 Rémi Vanicat
      end
    #+end_src
 ** structure
-   #+source: encode
+   #+name: encode
    #+begin_src ruby :noweb yes
      <<encode_name>>
      <<compare_name>>
@@ -119,7 +119,7 @@ Copyright: (c) 2011 Rémi Vanicat
    :PROPERTIES:
    :ID:       60333ece-ab83-4b09-b474-e04e9ea0606c
    :END:
-   #+source: server-interaction
+   #+name: server-interaction
    #+begin_src ruby :noweb yes
      class XmmsInteract
        <<reading-xmms-hash>>
@@ -132,7 +132,7 @@ Copyright: (c) 2011 Rémi Vanicat
      end
    #+end_src
 
-   #+source: reading-xmms-hash
+   #+name: reading-xmms-hash
    #+begin_src ruby
      def get(info, attr, default=nil)
        info[attr].map[0][1]
@@ -145,7 +145,7 @@ Copyright: (c) 2011 Rémi Vanicat
    :PROPERTIES:
    :ID:       83142473-12ba-40ab-b4d8-9a9169b4db1f
    :END:
-   #+source: initialization
+   #+name: initialization
    #+begin_src ruby
      def initialize
        unless connect!
@@ -161,7 +161,7 @@ Copyright: (c) 2011 Rémi Vanicat
    :ID:       acdc6116-8573-46f2-be35-c706c3d5f5b7
    :END:
    we connect, and reconnect.
-   #+source: connection-handling
+   #+name: connection-handling
    #+begin_src ruby
      def connect!
        begin
@@ -179,7 +179,7 @@ Copyright: (c) 2011 Rémi Vanicat
    #+end_src
 
 ** TODO Reading collections
-   #+source: reading-server-information
+   #+name: reading-server-information
    #+begin_src ruby
      def get_colletion(pattern,maxsize,random)
        coll = Xmms::Collection.parse(pattern)
@@ -218,7 +218,7 @@ Copyright: (c) 2011 Rémi Vanicat
    #+end_src
 
 * Reading a directories
-  #+source: path-reading
+  #+name: path-reading
   #+begin_src ruby
     def find_in_dir path
       path=Pathname(path)
@@ -233,7 +233,7 @@ Copyright: (c) 2011 Rémi Vanicat
 
 * syncing directories
 ** The syncing structure
-   #+source: sync
+   #+name: sync
    #+begin_src ruby
      <<action-only-source>>
      <<action-only-dest>>
@@ -242,7 +242,7 @@ Copyright: (c) 2011 Rémi Vanicat
    #+end_src
 
 ** syncing when there is the source and not the dest
-   #+source: action-only-source
+   #+name: action-only-source
    #+begin_src ruby
      def action_from_source(sync_dir,dest_dir,song)
        source_song=sync_dir + song
@@ -260,7 +260,7 @@ Copyright: (c) 2011 Rémi Vanicat
    #+end_src
 
 ** syncing when there is the dest and not the source
-   #+source: action-only-dest
+   #+name: action-only-dest
    #+begin_src ruby
      def action_from_dest(sync_dir,dest_dir,song)
        dest_song=dest_dir + song
@@ -274,7 +274,7 @@ Copyright: (c) 2011 Rémi Vanicat
    #+end_src
 
 ** syncing when there both
-   #+source: action-both
+   #+name: action-both
    #+begin_src ruby
      def action_both(sync_dir,dest_dir,song)
        # let's do nothing
@@ -282,7 +282,7 @@ Copyright: (c) 2011 Rémi Vanicat
    #+end_src
 
 ** Let's do it
-   #+source: syncing-it
+   #+name: syncing-it
    #+begin_src ruby
      def get_song(dir,list)
        song = list.pop
@@ -321,14 +321,14 @@ Copyright: (c) 2011 Rémi Vanicat
 
 * option reading
 ** Some global variables
-   #+source: variables
+   #+name: variables
    #+begin_src ruby
      @dry_run = false
      @silence = false
      @encode = false
    #+end_src
 ** Reading the options
-   #+source: option-reading
+   #+name: option-reading
    #+begin_src ruby
      options = {}
 
@@ -380,7 +380,7 @@ Copyright: (c) 2011 Rémi Vanicat
   :PROPERTIES:
   :ID:       d7319434-31e9-41b7-a9e4-19759edaaaeb
   :END:
-  #+source: runing-it
+  #+name: runing-it
   #+begin_src ruby :noweb true
     $0 = "xmms-gtk-rater"
 
