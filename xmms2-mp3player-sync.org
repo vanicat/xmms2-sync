@@ -1,7 +1,7 @@
 #+TITLE: Xmms Sync
 #+AUTHOR: Rémi Vanicat <vanicat@debian.org>
 
-Copyright: (c) 2011 Rémi Vanicat
+Copyright: (c) 2011, 2012 Rémi Vanicat
 
 * About
   This is a small client for xmms2 that will allow sync a collection
