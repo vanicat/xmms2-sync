@@ -238,7 +238,11 @@ Copyright: (c) 2011 Rémi Vanicat
          print "to much things to sync\n"
          exit(-1)                  #TODO: do not exit for when there is a gui
        end
-       list.sort! do |x,y| x.to_s <=> y.to_s end
+       if @encoding then
+         list.sort! compare_path
+       else
+         list.sort! do |x,y| x.to_s <=> y.to_s end
+       end
        return list
      end
    #+end_src
@@ -272,7 +276,11 @@ Copyright: (c) 2011 Rémi Vanicat
    #+begin_src ruby
      def action_from_source(sync_dir,dest_dir,song)
        source_song=sync_dir + song
-       dest_song=dest_dir + song
+       if @encode then
+         dest_song=dest_dir + encoding_path(song)
+       else
+         dest_song=dest_dir + song
+       end
        if not(@dry_run) then
          dest_song.dirname.mkpath
        end
@@ -400,6 +408,7 @@ Copyright: (c) 2011 Rémi Vanicat
 
      if ARGV.length < 3 then
        puts(optparse)
+       exit(-1)
      end
 
      syncfrom = ARGV.slice!(0)
