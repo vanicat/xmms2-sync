@@ -1,4 +1,4 @@
-#+TITLE: Xmms Gtk Rater
+#+TITLE: Xmms Sync
 #+AUTHOR: Rémi Vanicat <vanicat@debian.org>
 
 Copyright: (c) 2011 Rémi Vanicat
@@ -226,6 +226,7 @@ Copyright: (c) 2011 Rémi Vanicat
            if song_path.exist? then
              size += song[:size]
              if maxsize && size > maxsize then
+               size -= song[:size]
                break
              end
              list << song_path
@@ -412,7 +413,7 @@ Copyright: (c) 2011 Rémi Vanicat
   :END:
   #+name: runing-it
   #+begin_src ruby :noweb true
-    $0 = "xmms-gtk-rater"
+    $0 = "xmms2-sync"
 
     def main ()
       <<option-reading>>
