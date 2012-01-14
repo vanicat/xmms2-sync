@@ -254,7 +254,11 @@ Copyright: (c) 2011, 2012 Rémi Vanicat
       path.find do |x|
         li << x
       end
-      li.sort! do |x,y| x.to_s <=> y.to_s end
+      if options[:encode] then
+        li.sort! do |x,y| compare_path(x,y) end
+      else
+        li.sort! do |x,y| x.to_s <=> y.to_s end
+      end
       return li
     end
   #+end_src
@@ -328,10 +332,16 @@ Copyright: (c) 2011, 2012 Rémi Vanicat
        dest_song = get_song(dest_dir,dest_list)
        sync_song = get_song(sync_dir,sync_list)
        while dest_song && sync_song
-         if dest_song.to_s > sync_song.to_s
+         if options[:encode]
+           cmp = compare_path dest_song,sync_song
+         else
+           cmp = dest_song <=> sync_song
+         end
+
+         if cmp > 0
            action_from_dest(sync_dir,dest_dir,dest_song,options)
            dest_song = get_song(dest_dir,dest_list)
-         elsif dest_song.to_s < sync_song.to_s
+         elsif cmp < 0
            action_from_source(sync_dir,dest_dir,sync_song,options)
            sync_song = get_song(sync_dir,sync_list)
          else
