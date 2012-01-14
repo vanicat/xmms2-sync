@@ -59,8 +59,6 @@ Copyright: (c) 2011, 2012 Rémi Vanicat
     # This code is wrote using org-mode's babel's litterate programing
     # you should modify xmms2-sync.org, and not xmms2-sync directly.
 
-    <<variables>>
-
     <<useful>>
 
     <<libraries>>
@@ -238,8 +236,8 @@ Copyright: (c) 2011, 2012 Rémi Vanicat
          print "to much things to sync\n"
          exit(-1)                  #TODO: do not exit for when there is a gui
        end
-       if @encoding then
-         list.sort! compare_path
+       if options[:encode] then
+         list.sort! do |x,y| compare_path x,y end
        else
          list.sort! do |x,y| x.to_s <=> y.to_s end
        end
@@ -250,7 +248,7 @@ Copyright: (c) 2011, 2012 Rémi Vanicat
 * Reading a directories
   #+name: path-reading
   #+begin_src ruby
-    def find_in_dir path
+    def find_in_dir path,options
       path=Pathname(path)
       li = []
       path.find do |x|
@@ -274,20 +272,20 @@ Copyright: (c) 2011, 2012 Rémi Vanicat
 ** syncing when there is the source and not the dest
    #+name: action-only-source
    #+begin_src ruby
-     def action_from_source(sync_dir,dest_dir,song)
+     def action_from_source(sync_dir,dest_dir,song,options)
        source_song=sync_dir + song
-       if @encode then
+       if options[:encode] then
          dest_song=dest_dir + encoding_path(song)
        else
          dest_song=dest_dir + song
        end
-       if not(@dry_run) then
+       if not(options[:dry_run]) then
          dest_song.dirname.mkpath
        end
-       if not(@silence) then
+       if not(options[:silence]) then
          print("copying #{source_song} to #{dest_song}\n")
        end
-       if not(@dry_run) then
+       if not(options[:dry_run]) then
          FileUtils.cp(source_song,dest_song)
        end
      end
@@ -296,12 +294,12 @@ Copyright: (c) 2011, 2012 Rémi Vanicat
 ** syncing when there is the dest and not the source
    #+name: action-only-dest
    #+begin_src ruby
-     def action_from_dest(sync_dir,dest_dir,song)
+     def action_from_dest(sync_dir,dest_dir,song,options)
        dest_song=dest_dir + song
-       if not(@silence) then
+       if not(options[:silence]) then
          print("deleting #{dest_song}\n")
        end
-       if not(@dry_run) then
+       if not(options[:dry_run]) then
          dest_song.unlink
        end
      end
@@ -310,7 +308,7 @@ Copyright: (c) 2011, 2012 Rémi Vanicat
 ** syncing when there both
    #+name: action-both
    #+begin_src ruby
-     def action_both(sync_dir,dest_dir,song)
+     def action_both(sync_dir,dest_dir,song,options)
        # let's do nothing
      end
    #+end_src
@@ -326,41 +324,34 @@ Copyright: (c) 2011, 2012 Rémi Vanicat
        song && song.relative_path_from(dir)
      end
 
-     def sync(sync_dir,sync_list,dest_dir,dest_list)
+     def sync(sync_dir,sync_list,dest_dir,dest_list,options)
        dest_song = get_song(dest_dir,dest_list)
        sync_song = get_song(sync_dir,sync_list)
        while dest_song && sync_song
          if dest_song.to_s > sync_song.to_s
-           action_from_dest(sync_dir,dest_dir,dest_song)
+           action_from_dest(sync_dir,dest_dir,dest_song,options)
            dest_song = get_song(dest_dir,dest_list)
          elsif dest_song.to_s < sync_song.to_s
-           action_from_source(sync_dir,dest_dir,sync_song)
+           action_from_source(sync_dir,dest_dir,sync_song,options)
            sync_song = get_song(sync_dir,sync_list)
          else
-           action_both(sync_dir,dest_dir,sync_song)
+           action_both(sync_dir,dest_dir,sync_song,options)
            dest_song = get_song(dest_dir,dest_list)
            sync_song = get_song(sync_dir,sync_list)
          end
        end
        while dest_song
-         action_from_dest(sync_dir,dest_dir,dest_song)
+         action_from_dest(sync_dir,dest_dir,dest_song,options)
          dest_song = get_song(dest_dir,dest_list)
        end
        while sync_song
-         action_from_source(sync_dir,dest_dir,sync_song)
+         action_from_source(sync_dir,dest_dir,sync_song,options)
          sync_song = get_song(sync_dir,sync_list)
        end
      end
    #+end_src
 
 * option reading
-** Some global variables
-   #+name: variables
-   #+begin_src ruby
-     @dry_run = false
-     @silence = false
-     @encode = false
-   #+end_src
 ** Reading the options
    #+name: option-reading
    #+begin_src ruby
@@ -385,13 +376,16 @@ Copyright: (c) 2011, 2012 Rémi Vanicat
          exit
        end
 
+
+       options[:dry_run] = false
        opts.on( '-n', '--no-do', 'Do nothing, just print what should be done' ) do
-         @dry_run = true
+         options[:dry_run] = true
        end
 
+       options[:silence] = false
        opts.on( '-o', '--only-size', 'Do nothing, just print the size of the search' ) do
-         @silence = true
-         @dry_run = true
+         options[:silence] = false
+         options[:dry_run] = true
        end
 
        options[:human]=false
@@ -399,8 +393,9 @@ Copyright: (c) 2011, 2012 Rémi Vanicat
          options[:human]=true
        end
 
+       options[:encode]=false
        opts.on( '-e', '--encode', 'Encode the file name' ) do
-         @encode = true
+         options[:encode]=true
        end
      end
 
@@ -430,9 +425,9 @@ Copyright: (c) 2011, 2012 Rémi Vanicat
       xc = XmmsInteract.new
       synclist = xc.get_colletion(pattern.join(" "),options)
 
-      destlist = find_in_dir(syncto)
+      destlist = find_in_dir(syncto,options)
 
-      sync(Pathname(syncfrom),synclist,Pathname(syncto),destlist)
+      sync(Pathname(syncfrom),synclist,Pathname(syncto),destlist,options)
     end
 
     main()
