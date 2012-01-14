@@ -203,10 +203,10 @@ Copyright: (c) 2011, 2012 Rémi Vanicat
 ** TODO Reading collections
    #+name: reading-server-information
    #+begin_src ruby
-     def get_colletion(pattern, option)
-       maxsize = option[:size]
-       random = option[:random]
-       human = option[:human]
+     def get_colletion(pattern, options)
+       maxsize = options[:size]
+       random = options[:random]
+       human = options[:human]
 
        coll = Xmms::Collection.parse(pattern)
        if random then
