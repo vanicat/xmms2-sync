@@ -105,8 +105,8 @@ Copyright: (c) 2011, 2012 Rémi Vanicat
    #+name: compare_name
    #+begin_src ruby
      def compare_path(path1,path2)
-       path1 = encoding_path(path1).capitalize!
-       path2 = encoding_path(path2).capitalize!
+       path1 = encoding_path(path1).upcase
+       path2 = encoding_path(path2).upcase
        path1 <=> path2
      end
    #+end_src
