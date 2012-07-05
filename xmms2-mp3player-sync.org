@@ -235,7 +235,7 @@ Copyright: (c) 2011, 2012 Rémi Vanicat
        end
        print "size to sync #{print_size(size, human)}\n"
        if (maxsize && ! random && size > maxsize ) then
-         print "to much things to sync\n"
+         print "to much songs to sync\n"
          exit(-1)                  #TODO: do not exit for when there is a gui
        end
        if options[:encode] then
