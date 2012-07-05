@@ -187,7 +187,7 @@ Copyright: (c) 2011, 2012 Rémi Vanicat
    #+begin_src ruby
      def connect!
        begin
-         @xc = Xmms::Client.new('GtkRater').connect(ENV['XMMS_PATH'])
+         @xc = Xmms::Client.new('Xmms2Sync').connect(ENV['XMMS_PATH'])
        rescue Xmms::Client::ClientError
          return false
        end
