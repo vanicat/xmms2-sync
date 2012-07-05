@@ -16,6 +16,7 @@ Copyright: (c) 2011, 2012 Rémi Vanicat
 *** TODO build a GUI
 *** TODO use a config file.
 *** TODO delete first copy after to have the place
+*** TODO look more closely to encoding problem, in case of filename not encoded in UTF-8
 
 ** Licence
    :PROPERTIES:
@@ -423,7 +424,7 @@ Copyright: (c) 2011, 2012 Rémi Vanicat
      pattern = ARGV
    #+end_src
 
-* TODO Connecting the dot, and running all this
+* Connecting the dot, and running all this
   :PROPERTIES:
   :ID:       d7319434-31e9-41b7-a9e4-19759edaaaeb
   :END:
