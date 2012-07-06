@@ -98,7 +98,6 @@ Copyright: (c) 2011, 2012 Rémi Vanicat
        path=path.to_s
        path=path.gsub(/[<>:\"\\|?*]/,'_')
        path.gsub!(/\.*\//,'/')
-       path.encode!("UTF-8","UTF-8") # will fail for filesystem not in utf-8, or
        return path
      end
    #+end_src
@@ -223,7 +222,7 @@ Copyright: (c) 2011, 2012 Rémi Vanicat
 
        res.each do |song|
          if song[:size] then
-           song_path = Pathname(URI.decode(URI(song[:url]).path).gsub(/\+/, ' '))
+           song_path = Pathname(URI.decode(URI(song[:url]).path).gsub(/\+/, ' ').encode!("UTF-8","UTF-8")) # will fail if the url in xmms2 is not UTF-8 encoded
            if song_path.exist? then
              size += song[:size]
              if maxsize && size > maxsize then
