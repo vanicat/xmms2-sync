@@ -1,0 +1,29 @@
+#+TITLE: XMMS2 sync
+
+Xmms2-sync is a way to sync your mobile music player with you xmms
+collection. It's designed for CLI, and for people that have either a
+too big music collection or a too small mobile music player.
+
+you could run it as
+#+name: runing-it
+#+begin_src sh
+  xmms2-sync -e ~/Music /media/musicplayer/Music rating>2
+#+end_src
+
+which mean
+ - -e :: encode the filename for old filesystem (fat32...)
+ - ~/Music :: The first path is where your music collection is. It
+              will be stripped from the filename before putting the
+              file in the music player
+ - /media/musicplayer/Music :: The second path is where you want the
+      music to be coped. *unknown file will be deleted*
+ - rating>2 :: pattern describing song to be copied
+
+Beware: *This will remove file in /media/musicplayer/Music*.
+
+If you want to know what will be done before doing it, add /-n/ to the
+command line.
+
+Useful other option are
+ - -n :: do nothing, just print what would be done
+ - -o :: do nothing, just print the size of the collection (will it fit ?)
