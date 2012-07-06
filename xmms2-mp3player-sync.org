@@ -59,6 +59,11 @@ Copyright: (c) 2011, 2012 Rémi Vanicat
 
     # This code is wrote using org-mode's babel's litterate programing
     # you should modify xmms2-sync.org, and not xmms2-sync directly.
+    # That said I will accept patch to this file and bring them back into
+    # The org-mode one.
+    #
+    # please read org-mode documentation for help on manipulating the org
+    # file.
 
     <<useful>>
 
@@ -77,7 +82,7 @@ Copyright: (c) 2011, 2012 Rémi Vanicat
     <<runing-it>>
   #+end_src
 
-** then included libraries
+** the included libraries
    :PROPERTIES:
    :ID:       303f4137-59ce-4c9f-810d-00f24548bafa
    :END:
