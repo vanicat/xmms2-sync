@@ -17,7 +17,7 @@ which mean
               file in the music player
  - /media/musicplayer/Music :: The second path is where you want the
       music to be coped. *unknown file will be deleted*
- - rating>2 :: pattern describing song to be copied
+ - rating>2 :: pattern describing songs to be copied
 
 Beware: *This will remove file in /media/musicplayer/Music*.
 
