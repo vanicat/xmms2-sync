@@ -26,4 +26,4 @@ command line.
 
 Useful other option are
  - -n :: do nothing, just print what would be done
- - -o :: do nothing, just print the size of the collection (will it fit ?)
+ - -o :: do nothing, just print the size of the collection (will it fit?)
