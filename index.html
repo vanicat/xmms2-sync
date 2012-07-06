@@ -36,7 +36,6 @@
         <span class="blc"></span><span class="trc"></span>
         </div>
         <article class="markdown-body">
-          <h1>+TITLE: XMMS2 sync</h1>
 
 <p>Xmms2-sync is a way to sync your mobile music player with you xmms
 collection. It's designed for CLI, and for people that have either a
@@ -44,25 +43,19 @@ too big music collection or a too small mobile music player.</p>
 
 <p>you could run it as</p>
 
-<h1>+name: runing-it</h1>
-
-<h1>+begin_src sh</h1>
-
-<p>xmms2-sync -e ~/Music /media/musicplayer/Music rating&gt;2</p>
-
-<h1>+end_src</h1>
+<pre>xmms2-sync -e ~/Music /media/musicplayer/Music rating&gt;2</pre>
 
 <p>which mean</p>
 
 <ul>
-<li>-e :: encode the filename for old filesystem (fat32...)</li>
-<li>~/Music :: The first path is where your music collection is. It
+<li><pre>-e</pre>  encode the filename for old filesystem (fat32...)</li>
+<li><pre>~/Music</pre> The first path is where your music collection is. It
           will be stripped from the filename before putting the
           file in the music player</li>
-<li>/media/musicplayer/Music :: The second path is where you want the
+<li><pre>/media/musicplayer/Music</pre> The second path is where you want the
   music to be coped. <em>unknown file will be deleted</em>
 </li>
-<li>rating&gt;2 :: pattern describing song to be copied</li>
+<li><pre>rating&gt;2</pre> pattern describing song to be copied</li>
 </ul><p>Beware: <em>This will remove file in /media/musicplayer/Music</em>.</p>
 
 <p>If you want to know what will be done before doing it, add /-n/ to the
@@ -71,8 +64,8 @@ command line.</p>
 <p>Useful other option are</p>
 
 <ul>
-<li>-n :: do nothing, just print what would be done</li>
-<li>-o :: do nothing, just print the size of the collection (will it fit?)</li>
+<li><pre>-n</pre> do nothing, just print what would be done</li>
+<li><pre>-o</pre> do nothing, just print the size of the collection (will it fit?)</li>
 </ul>
         </article>
       </div>
